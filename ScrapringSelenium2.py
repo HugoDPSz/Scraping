@@ -69,18 +69,19 @@ ul_relatorio = soup.find('ul', class_='relatorio')
 # Garante que a ul foi encontrada
 if ul_relatorio:
     for jogador in ul_relatorio.find_all('li'):
-        try:
-            nome = jogador.select_one('h5 a span')
-            info = jogador.select_one('div.info p em')
+        if "pbmt" not in jogador.get("class", []):
+            try:
+                nome = jogador.select_one('h5 a span')
+                info = jogador.select_one('div.info p em')
 
-            # Verifica se os elementos foram encontrados antes de acessar o texto
-            nome_texto = nome.get_text(strip=True) if nome else "Nome não encontrado"
-            info_texto = info.get_text(strip=True) if info else "Info não encontrada"
+                # Verifica se os elementos foram encontrados antes de acessar o texto
+                nome_texto = nome.get_text(strip=True) if nome else "Nome não encontrado"
+                info_texto = info.get_text(strip=True) if info else "Info não encontrada"
 
-            jogadores.append([nome_texto, info_texto])
+                jogadores.append([nome_texto, info_texto])
 
-        except Exception as e:
-            print(f"Erro ao processar jogador: {e}")
+            except Exception as e:
+                print(f"Erro ao processar jogador: {e}")
 else:
     print("ul.relatorio não encontrada!")
 
